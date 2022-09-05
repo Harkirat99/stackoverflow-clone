@@ -77,6 +77,6 @@ app.post('/create-analytics', async function (req, res) {
 })
 
 
-app.listen(9090, function () {
-    console.log('server started on port 9090...')
+app.listen(9000, function () {
+    console.log('server started on port 9000...')
 });

@@ -11,19 +11,48 @@ async function createVote(body) {
             )
             console.log(response + "added sucessfully")
 
-            let upVotes = await Votes.find({ feed_id: body.feed_id },
-                { vote: 'up' }
-            )
-            let downVotes = await Votes.find({ feed_id: body.feed_id  },
-                { vote: 'down' }
-            )
-            let postiveVote = upVotes.length
-            let negativeVote = downVotes.length
-            await Analytics.updateOne(
-                { feed_id: body.feed_id },
-                { vote_count_up: postiveVote, vote_count_down: negativeVote }
-            );
-            console.log('Updted vote count sucessfully')
+            // let upVotes = await Votes.find({ feed_id: body.feed_id },
+            //     { vote: 'up' }
+            // )
+            // let downVotes = await Votes.find({ feed_id: body.feed_id  },
+            //     { vote: 'down' }
+            // )
+            // let vt = await Votes.find({ feed_id: body.feed_id})
+            // let upvt = await Votes.find(
+            //     { feed_id: body.feed_id },
+            //     { votes: { vote: "up" } }
+            // )
+            let upvote = await Votes.find({ feed_id: body.feed_id })
+            const arrUp = upvote[0].votes
+            let postiveVote = arrUp.filter(function (up) {
+                return up.vote == 'up'
+            })
+            let negativeVote = arrUp.filter(function (up) {
+                return up.vote !== 'up'
+            })
+            const upVoteLen = postiveVote.length
+            const downVoteLen = negativeVote.length
+
+            console.log(upVoteLen)
+            if (body.vote == 'up') {
+                await Analytics.updateOne(
+                    { feed_id: body.feed_id },
+                    { vote_count_up: upVoteLen }
+                );
+            }
+            if (body.vote == 'down') {
+                await Analytics.updateOne(
+                    { feed_id: body.feed_id },
+                    { vote_count_down: downVoteLen }
+                );
+            }
+
+            try {
+                console.log('Updted vote count sucessfully')
+            } catch (error) {
+                console.log(error)
+            }
+
         }
         if (feed.length == 0) {
             let entity = await Votes.create({
@@ -34,7 +63,6 @@ async function createVote(body) {
             await entity.save()
         }
 
-        // await response.save()
         return console.log("added Sucessfully")
     } catch (error) {
         console.log(error)
@@ -45,17 +73,6 @@ async function createVote(body) {
 async function getVote() {
     try {
         let data = await Votes.find();
-
-        // let upVotes = await Votes.find({ feed_id: "6315c7dcad383f44391f8cd7" },
-        //     { vote: 'up' }
-        // )
-        // let downVotes = await Votes.find({ feed_id: "6315c7dcad383f44391f8cd7" },
-        //     { vote: 'up' }
-        // )
-        // let postiveVote = upVotes.length
-        // let negativeVote = downVotes.length
-
-        // console.log(postiveVote + negativeVote)
         if (!data) {
             console.log('Some Error Occured')
         } else {

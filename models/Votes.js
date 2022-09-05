@@ -10,7 +10,6 @@ var VotesSchema = new mongoose.Schema({
     // }
     votes:[{
         vote:String,
-        enum: ['up', 'down'],
        }]
 });
 const Votes = mongoose.model('Votes', VotesSchema);
