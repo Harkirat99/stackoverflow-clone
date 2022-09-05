@@ -1,9 +1,13 @@
 var mongoose = require('mongoose');
 var AnalyticsSchema = new mongoose.Schema({
-    // feed_id: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Feeds",
-    // },
+    feed_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Feeds",
+    },
+    comment_count: Number,
+    vote_count_up: Number,
+    vote_count_down: Number,
+
     vote_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Votes",

@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var FeedsSchema = new mongoose.Schema({
-        analytics: {
+     analytics: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Analytics",
     },

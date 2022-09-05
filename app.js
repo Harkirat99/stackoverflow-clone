@@ -30,7 +30,8 @@ app.post('/create-feed', async function (req, res) {
 })
 
 app.get('/get-feed', async function (req, res) {
-    let response = await feedApi.getFeed()
+    let query = req.query;
+    let response = await feedApi.getFeed(query)
     res.json(response)
 })
 
@@ -55,6 +56,11 @@ app.post('/create-comment', async function (req, res) {
 
 app.get('/get-comment', async function (req, res) {
     let response = await commentApi.getComment()
+    res.json(response)
+})
+
+app.get('/count-comment', async function (req, res) {
+    let response = await commentApi.countComment()
     res.json(response)
 })
 
